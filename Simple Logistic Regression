@@ -1,0 +1,38 @@
+#IMPORT FILE
+import os
+
+cwd = os.getcwd()
+cwd
+
+os.chdir("C:/Users/M0/Documents/Ad-Hoc Spreadsheets")
+
+import pandas as pd
+
+file = 'PyLRModel.xlsx'
+
+xl = pd.ExcelFile(file)
+
+print(xl.sheet_names)
+
+df1 = xl.parse('sheet1')
+
+new_candidates = xl.parse('test data')
+
+#LOGISTIC REGRESSION
+
+from sklearn.model_selection import train_test_split
+from sklearn.linear_model import LogisticRegression
+
+X = df[['GMAT', 'GPA','WORK']]
+y = df['ADMIT']
+
+X_train,X_test,y_train,y_test = train_test_split(X,y,test_size=0.25,random_state=0)  #in this case, you may choose to set the test_size=0. You should get the same prediction here
+
+logistic_regression= LogisticRegression()
+logistic_regression.fit(X_train,y_train)
+
+dfFinal = pd.DataFrame(new_candidates,columns= ['gmat', 'gpa','work_experience'])
+y_pred=logistic_regression.predict(dfFinal)
+
+print (dfFinal)
+print (y_pred)
